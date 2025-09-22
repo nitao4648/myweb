@@ -23,7 +23,6 @@ const Login = ({ setUser }) => {
     </form>
   );
 
-  );
 };
 
 export default Login;
