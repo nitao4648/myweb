@@ -1,7 +1,9 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import awsExports from '../aws-exports';
+import { Auth } from '@aws-amplify/auth';
 
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
