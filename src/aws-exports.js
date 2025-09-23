@@ -6,4 +6,12 @@ const awsmobile = {
 };
 
 
-export default awsmobile;
+export default {
+  Auth: {
+    region: "us-west-1",
+    userPoolId: "us-west-1_VhvACbvqC",
+    userPoolWebClientId: "660bvluiuja8t7telpssm67e8f",
+    // if identity pool used, also identityPoolId: "..."
+  }
+  // possibly other properties
+};
