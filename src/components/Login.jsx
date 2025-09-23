@@ -1,86 +1,86 @@
 // src/components/Login.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
-import { signIn, fetchAuthSession } from 'aws-amplify/auth';
+import { fetchAuthSession, signIn } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 import awsExports from '../aws-exports';
 
-function SomeComponent() {
+Amplify.configure({ ...awsExports });
+
+function Login({ setUser }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loadingSession, setLoadingSession] = useState(true);
+  const [sessionInfo, setSessionInfo] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function checkSession() {
       try {
         const session = await fetchAuthSession();
-        // ...
-      } catch(e) {
-        console.log(e);
+        console.log("fetchAuthSession result:", session);
+        if (session?.tokens?.accessToken) {
+          // user is signed in
+          setSessionInfo(session);
+          setUser(session);  // or use more precise user object
+          navigate('/upload');
+          return;
+        }
+      } catch (err) {
+        console.log("Error in fetchAuthSession:", err);
+        // maybe user not signed in; that's ok
+      } finally {
+        setLoadingSession(false);
       }
     }
     checkSession();
-  }, []);
-
-  // ...
-}
-
-Amplify.configure({ ...awsExports });
-
-const Login = ({ setUser }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  }, [navigate, setUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
+    setErrorMessage('');
     try {
-      // Using v6 signIn
-      const signInResult = await signIn({  
-        username: email,
-        password,
-        // options if needed
-      });
-      // signInResult contains info like whether signIn completed etc.
-      // You may want to call fetchAuthSession to get tokens / user info
+      const result = await signIn({ username: email, password });
+      console.log("SignIn result:", result);
+      // after sign in, you may want to call fetchAuthSession again, or just navigate
       const session = await fetchAuthSession();
-      // session.tokens.idToken etc if you need them
-
-      setUser(signInResult); // or use session
+      setUser(session);
       navigate('/upload');
     } catch (err) {
-      console.error('Login error:', err);
-      setError(err.message || 'Error signing in');
-    } finally {
-      setLoading(false);
+      console.error("Sign in error:", err);
+      setErrorMessage(err.message ?? 'Sign in failed');
     }
   };
+
+  if (loadingSession) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <h2>Login</h2>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           required
         />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
+        <button type="submit">Login</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {sessionInfo && <div>Signed in as: {sessionInfo.tokens?.idToken?.payload?.email || 'Unknown user'}</div>}
     </div>
   );
-};
+}
 
 export default Login;
