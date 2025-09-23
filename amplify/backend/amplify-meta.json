@@ -1,0 +1,57 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-myweb-dev-50098-authRole",
+      "UnauthRoleArn": "arn:aws:iam::054301582228:role/amplify-myweb-dev-50098-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::054301582228:role/amplify-myweb-dev-50098-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-myweb-dev-50098-deployment",
+      "UnauthRoleName": "amplify-myweb-dev-50098-unauthRole",
+      "StackName": "amplify-myweb-dev-50098",
+      "StackId": "arn:aws:cloudformation:us-west-1:054301582228:stack/amplify-myweb-dev-50098/5d6c25c0-9811-11f0-a9e1-025d184d2531",
+      "AmplifyAppId": "d21bkg5bn9uuqy"
+    }
+  },
+  "auth": {
+    "mywebaf0c52bf": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-myweb-dev-50098-deployment/amplify-cfn-templates/auth/mywebaf0c52bf-cloudformation-template.json",
+        "logicalId": "authmywebaf0c52bf"
+      },
+      "lastPushTimeStamp": "2025-09-23T00:51:16.641Z",
+      "output": {
+        "UserPoolId": "us-west-1_VhvACbvqC",
+        "AppClientIDWeb": "660bvluiuja8t7telpssm67e8f",
+        "AppClientID": "12vjpt104np1elbesbikn86jg0",
+        "IdentityPoolId": "us-west-1:3bd05063-81d8-4ee0-839f-8e6c70030b6d",
+        "UserPoolArn": "arn:aws:cognito-idp:us-west-1:054301582228:userpool/us-west-1_VhvACbvqC",
+        "IdentityPoolName": "mywebaf0c52bf_identitypool_af0c52bf__dev",
+        "UserPoolName": "mywebaf0c52bf_userpool_af0c52bf"
+      }
+    }
+  }
+}
