@@ -1,9 +1,11 @@
-// src/components/Login.js
+// src/components/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
+import { signIn, fetchAuthSession } from 'aws-amplify/auth';
+import { useNavigate } from 'react-router-dom';
 import awsExports from '../aws-exports';
-import { Auth } from '@aws-amplify/auth';
+
+Amplify.configure({ ...awsExports });
 
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
@@ -17,27 +19,22 @@ const Login = ({ setUser }) => {
     setError('');
     setLoading(true);
     try {
-      const user = await Auth.signIn(email, password);
-      // You can also get tokens if needed:
-      const session = await Auth.currentSession();
-      const idToken = session.getIdToken().getJwtToken();
-      const accessToken = session.getAccessToken().getJwtToken();
+      // Using v6 signIn
+      const signInResult = await signIn({  
+        username: email,
+        password,
+        // options if needed
+      });
+      // signInResult contains info like whether signIn completed etc.
+      // You may want to call fetchAuthSession to get tokens / user info
+      const session = await fetchAuthSession();
+      // session.tokens.idToken etc if you need them
 
-    // Replace with actual authentication logic
-    
-    setUser(user);
-    navigate('/upload');
-  }catch (err) {
+      setUser(signInResult); // or use session
+      navigate('/upload');
+    } catch (err) {
       console.error('Login error:', err);
-      if (err.code === 'UserNotConfirmedException') {
-        setError('User not confirmed. Please check your email for confirmation link.');
-      } else if (err.code === 'NotAuthorizedException') {
-        setError('Incorrect username or password.');
-      } else if (err.code === 'UserNotFoundException') {
-        setError('User does not exist.');
-      } else {
-        setError('Error signing in: ' + err.message);
-      }
+      setError(err.message || 'Error signing in');
     } finally {
       setLoading(false);
     }
@@ -51,14 +48,14 @@ const Login = ({ setUser }) => {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <button type="submit" disabled={loading}>
@@ -68,7 +65,6 @@ const Login = ({ setUser }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
-}
+};
 
 export default Login;
-
