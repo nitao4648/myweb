@@ -4,7 +4,6 @@ import { Amplify } from 'aws-amplify';
 import { signIn, fetchAuthSession } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 import awsExports from '../aws-exports';
-import { fetchAuthSession } from 'aws-amplify/auth';
 
 function SomeComponent() {
   useEffect(() => {
