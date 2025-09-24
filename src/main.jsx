@@ -9,7 +9,7 @@ Amplify.configure(awsExports);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <div>It works!</div>
   </React.StrictMode>
 );
 
