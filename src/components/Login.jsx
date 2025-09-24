@@ -8,7 +8,7 @@ import { signUp } from 'aws-amplify/auth';
 
 Amplify.configure({ ...awsExports });
 
-function Register() {
+export function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -68,10 +68,9 @@ function Register() {
       )}
     </div>
   );
-}
+};
 
-
-function Login({ setUser }) {
+export function Login({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loadingSession, setLoadingSession] = useState(true);
