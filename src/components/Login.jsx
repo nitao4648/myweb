@@ -4,7 +4,7 @@ import { Amplify } from 'aws-amplify';
 import { fetchAuthSession, signIn } from 'aws-amplify/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import awsExports from '../aws-exports';
-import { signUp } from 'aws-amplify/auth';
+import { signUp, confirmSignUp } from 'aws-amplify/auth';
 
 Amplify.configure({ ...awsExports });
 
