@@ -4,8 +4,72 @@ import { Amplify } from 'aws-amplify';
 import { fetchAuthSession, signIn } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 import awsExports from '../aws-exports';
+import { signUp } from 'aws-amplify/auth';
 
 Amplify.configure({ ...awsExports });
+
+function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [step, setStep] = useState('signup'); // or 'confirm'
+  const [error, setError] = useState('');
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const { isSignUpComplete, nextStep } = await signUp({
+        username: email,
+        password,
+        options: {
+          userAttributes: {
+            email,
+          }
+        }
+      });
+      console.log("signUp result:", isSignUpComplete, nextStep);
+      setStep('confirm');
+    } catch (err) {
+      setError(err.message || 'Error signing up');
+    }
+  };
+
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    try {
+      const { isSignUpComplete } = await confirmSignUp({
+        username: email,
+        confirmationCode: verificationCode
+      });
+      if (isSignUpComplete) {
+        // registration confirmed
+      }
+    } catch (err) {
+      setError(err.message || 'Error confirming signup');
+    }
+  };
+
+  return (
+    <div>
+      {step === 'signup' && (
+        <form onSubmit={handleSignUp}>
+          <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" required />
+          <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" required />
+          <button type="submit">Sign Up</button>
+          {error && <p style={{color:'red'}}>{error}</p>}
+        </form>
+      )}
+      {step === 'confirm' && (
+        <form onSubmit={handleConfirm}>
+          <input type="text" value={verificationCode} onChange={e=>setVerificationCode(e.target.value)} placeholder="Code" required />
+          <button type="submit">Confirm Sign Up</button>
+          {error && <p style={{color:'red'}}>{error}</p>}
+        </form>
+      )}
+    </div>
+  );
+}
+
 
 function Login({ setUser }) {
   const [email, setEmail] = useState('');
