@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession, signIn } from 'aws-amplify/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import awsExports from '../aws-exports';
 import { signUp } from 'aws-amplify/auth';
 
@@ -142,6 +142,9 @@ export function Login({ setUser }) {
         <button type="submit">Login</button>
       </form>
       {sessionInfo && <div>Signed in as: {sessionInfo.tokens?.idToken?.payload?.email || 'Unknown user'}</div>}
+      <p>
+        Don’t have an account? <Link to="/register">Register here</Link>
+      </p>
     </div>
   );
 }
