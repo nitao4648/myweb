@@ -56,13 +56,13 @@ function ModelUpload({ setUser }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-        /><br>
+        /><br />
         <input
           type="file"
           accept=".zip,.tar,.h5,.pt,.onnx"
           onChange={handleFileChange}
           required
-        /><br>
+        /><br />
         <button type="submit">Upload & Compress</button>
       </form>
 
@@ -72,7 +72,7 @@ function ModelUpload({ setUser }) {
           Download Compressed Model
         </a>
       )}
-      <br>
+      <br />
       <button onClick={handleLogout} style={{ marginTop: '20px' }}>
         Logout
       </button>
