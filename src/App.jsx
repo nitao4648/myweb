@@ -15,7 +15,7 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route
         path="/upload"
-        element={user ? <ModelUpload /> : <Login setUser={setUser} />}
+        element={user ? <ModelUpload setUser={setUser} /> : <Login setUser={setUser} />}
       />
       <Route path="*" element={<div>404: Page Not Found</div>} />
     </Routes>
