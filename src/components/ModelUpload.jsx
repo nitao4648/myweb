@@ -47,7 +47,7 @@ function ModelUpload({ setUser }) {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'aqua' }}>
       <h2>Upload / Compression Page</h2>
 
       <form onSubmit={handleSubmit}>

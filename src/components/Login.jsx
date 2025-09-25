@@ -50,7 +50,7 @@ export function Register() {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'lightgreen', padding: '20px' }}>
       {step === 'signup' && (
         <form onSubmit={handleSignUp}>
           <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" required />
