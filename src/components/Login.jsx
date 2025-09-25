@@ -166,5 +166,6 @@ export function Signout({ setUser }) {
     console.error('Error signing out:', err);
   }
 }
+}
 
 export default Login;
