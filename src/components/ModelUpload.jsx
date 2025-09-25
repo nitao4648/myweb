@@ -1,13 +1,26 @@
-// src/components/ModelUpload.js
+// src/components/ModelUpload.jsx
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SignOut } from './Login';  // assuming you exported it there (or adjust path)
 import ProgressBar from './ProgressBar';
 import { uploadModel } from '../api';
 
-const ModelUpload = () => {
+function ModelUpload({ setUser }) {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [compressedModel, setCompressedModel] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await SignOut(setUser, navigate);
+    } catch (err) {
+      console.error("Error during logout:", err);
+    }
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -34,15 +47,37 @@ const ModelUpload = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea placeholder="Describe your model" value={description} onChange={(e) => setDescription(e.target.value)} required />
-      <input type="file" accept=".zip,.tar,.h5,.pt,.onnx" onChange={handleFileChange} required />
-      <button type="submit">Upload & Compress</button>
+    <div>
+      <h2>Upload / Compression Page</h2>
+
+      <form onSubmit={handleSubmit}>
+        <textarea
+          placeholder="Describe your model"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+        <input
+          type="file"
+          accept=".zip,.tar,.h5,.pt,.onnx"
+          onChange={handleFileChange}
+          required
+        />
+        <button type="submit">Upload & Compress</button>
+      </form>
+
       {progress > 0 && <ProgressBar progress={progress} />}
-      {compressedModel && <a href={compressedModel.url} download>Download Compressed Model</a>}
-    </form>
+      {compressedModel && (
+        <a href={compressedModel.url} download>
+          Download Compressed Model
+        </a>
+      )}
+
+      <button onClick={handleLogout} style={{ marginTop: '20px' }}>
+        Logout
+      </button>
+    </div>
   );
-};
+}
 
 export default ModelUpload;
-

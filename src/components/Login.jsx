@@ -1,7 +1,7 @@
 // src/components/Login.jsx
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
-import { fetchAuthSession, signIn } from 'aws-amplify/auth';
+import { fetchAuthSession, signIn, signOut } from 'aws-amplify/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import awsExports from '../aws-exports';
 import { signUp, confirmSignUp } from 'aws-amplify/auth';
@@ -147,6 +147,24 @@ export function Login({ setUser }) {
       </p>
     </div>
   );
+}
+export function Signout({ setUser }) {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    // Clear user state
+    if (typeof setUser === 'function') {
+      setUser(null);
+    }
+    // Redirect to login (or home)
+    if (typeof navigate === 'function') {
+      navigate('/');
+    }
+  } catch (err) {
+    console.error('Error signing out:', err);
+  }
 }
 
 export default Login;

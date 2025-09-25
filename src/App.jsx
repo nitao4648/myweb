@@ -3,7 +3,7 @@ console.log("App.jsx is rendering");
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Login, Register } from './components/Login';
+import { Login, Register, Signout } from './components/Login';
 import ModelUpload from './components/ModelUpload';
 
 const App = () => {
