@@ -47,8 +47,8 @@ function ModelUpload({ setUser }) {
   };
 
   return (
-    <div style={{ backgroundColor: 'aqua' }}>
-      <h2>Upload / Compression Page</h2>
+    <div style={{ backgroundColor: 'aqua', padding: '20px' }}>
+      <h2>Model Compression Requet Page</h2>
 
       <form onSubmit={handleSubmit}>
         <textarea
@@ -56,13 +56,13 @@ function ModelUpload({ setUser }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-        />
+        /><br>
         <input
           type="file"
           accept=".zip,.tar,.h5,.pt,.onnx"
           onChange={handleFileChange}
           required
-        />
+        /><br>
         <button type="submit">Upload & Compress</button>
       </form>
 
@@ -72,7 +72,7 @@ function ModelUpload({ setUser }) {
           Download Compressed Model
         </a>
       )}
-
+      <br>
       <button onClick={handleLogout} style={{ marginTop: '20px' }}>
         Logout
       </button>
