@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SignOut } from './Login';  // assuming you exported it there (or adjust path)
+import { Signout } from './Login';  // assuming you exported it there (or adjust path)
 import ProgressBar from './ProgressBar';
 import { uploadModel } from '../api';
 
