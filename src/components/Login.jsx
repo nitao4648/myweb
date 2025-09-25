@@ -121,8 +121,9 @@ export function Login({ setUser }) {
   }
 
   return (
+    <body style="background-color: lightblue;">
     <div>
-      <h2>Login</h2>
+      <h2>AI Model Compress Login</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <input
@@ -146,6 +147,7 @@ export function Login({ setUser }) {
         Don’t have an account? <Link to="/register">Register here</Link>
       </p>
     </div>
+    </body>
   );
 }
 export function Signout({ setUser }) {
