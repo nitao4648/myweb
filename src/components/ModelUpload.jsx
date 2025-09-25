@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Signout } from './Login';  // assuming you exported it there (or adjust path)
+import { signOut } from 'aws-amplify/auth';
 import ProgressBar from './ProgressBar';
 import { uploadModel } from '../api';
 
@@ -16,9 +16,11 @@ function ModelUpload({ setUser }) {
 
   const handleLogout = async () => {
     try {
-      await SignOut(setUser, navigate);
+      await signOut();
+      setUser(null);
+      navigate('/');
     } catch (err) {
-      console.error("Error during logout:", err);
+      console.error('Error signing out:', err);
     }
   };
 
@@ -29,11 +31,9 @@ function ModelUpload({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
-
     const formData = new FormData();
     formData.append('description', description);
     formData.append('model', file);
-
     try {
       const response = await uploadModel(formData, (event) => {
         if (event.lengthComputable) {
